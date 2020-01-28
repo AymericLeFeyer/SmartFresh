@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
+from tablib import Dataset
 from .models import Container
 
 def container(request, container_id):
@@ -27,3 +28,19 @@ def allContainers(request):
         output = e
     
     return HttpResponse(output)
+
+def simple_upload(request):
+    if request.method == 'POST':
+        template = loader.get_template('SmartFreshApp/simple_upload.html')
+
+        container_resource = Container()
+        dataset = Dataset()
+        new_container = request.FILES['myfile']
+
+        imported_data = dataset.load(new_container.read())
+        result = container_resource.import_data(dataset, dry_run=True)
+
+        if not result.has_errors():
+            container_resource.import_data(dataset, dry_run=False)
+        
+    return template.render(request)
