@@ -1,0 +1,13 @@
+<a href="/SmartFreshApp/">Retour</a>
+{% if c %}
+    <h4><a href="/SmartFreshApp/{{c.numLot}}/">{{c}}</a></h4>
+    <h5>{{c.commentaires}}</h5>
+    <ul>
+        <li> Francité : {% if c.isF %} Oui {% else %} Non {% endif %} </li>
+        <li> Zone C : {% if c.isC %} Oui {% else %} Non {% endif %} </li>
+        <li> Appel SQ : {% if c.isSQ %} Oui {% else %} Non {% endif %} </li>   
+        <li> Lot Bloqué : {% if c.isBloque %} Oui {% else %} Non {% endif %} </li>   
+    </ul>
+{% else %}
+    <p>No container.</p>
+{% endif %}

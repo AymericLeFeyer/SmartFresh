@@ -8,7 +8,8 @@ class Container(models.Model):
     isSQ = models.BooleanField(default=False)
     isC = models.BooleanField(default=False)
     isF = models.BooleanField(default=False)
-    commentaires = models.CharField(max_length=128)
+    isBloque = models.BooleanField(default=False)
+    commentaires = models.CharField(max_length=128, blank=True)
 
     def __str__(self):
         return str(self.numLot) + ' - ' + str(self.numContainer)

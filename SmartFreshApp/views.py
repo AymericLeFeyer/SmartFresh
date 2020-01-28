@@ -1,14 +1,15 @@
 from django.http import HttpResponse
+from django.template import loader
 from .models import Container
-
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
 
 def container(request, container_id):
     try:
         c = Container.objects.get(numLot=container_id)
-        output = str(c.numLot) + ' ' + str(c.numContainer)
+        template = loader.get_template('SmartFreshApp/detailsContainer.html')
+        context = {
+            'c': c,
+        }
+        output = template.render(context, request)
     except Exception:
         output = "No container with numLot = " + str(container_id)
     
@@ -17,7 +18,11 @@ def container(request, container_id):
 def allContainers(request):
     try:
         containerList = Container.objects.order_by('numLot')
-        output = '\n'.join([str(c) for c in containerList])
+        template = loader.get_template('SmartFreshApp/index.html')
+        context = {
+            'containerList': containerList,
+        }
+        output = template.render(context, request)
     except Exception as e:
         output = e
     

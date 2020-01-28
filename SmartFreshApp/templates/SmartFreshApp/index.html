@@ -1,0 +1,12 @@
+<h1>Liste des containers</h1>
+{% if containerList %}
+    <ul>
+    {% for container in containerList %}
+        <li>
+            <h4><a href="/SmartFreshApp/{{container.numLot}}/">{{container.numLot}} - {{container.numContainer}}</a></h4>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No containers are available.</p>
+{% endif %}
