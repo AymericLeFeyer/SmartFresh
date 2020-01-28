@@ -16,6 +16,19 @@ def container(request, container_id):
     
     return HttpResponse(output)
 
+def containerByName(request, container_name):
+    try:
+        c = Container.objects.get(numContainer=container_name)
+        template = loader.get_template('SmartFreshApp/detailsContainer.html')
+        context = {
+            'c': c,
+        }
+        output = template.render(context, request)
+    except Exception:
+        output = "No container with numContainer = " + str(container_name)
+    
+    return HttpResponse(output)
+
 def allContainers(request):
     try:
         containerList = Container.objects.order_by('numLot')

@@ -1,9 +1,12 @@
 <h1>Liste des containers</h1>
+<form action="/SmartFreshApp/" method="get">
+  <input name="q" type="text" placeholder="Chercher un container...">
+</form>
 {% if containerList %}
     <ul>
     {% for container in containerList %}
         <li>
-            <h4><a href="/SmartFreshApp/{{container.numLot}}/">{{container.numLot}} - {{container.numContainer}}</a></h4>
+            <h4><a href="/SmartFreshApp/{{container.numLot}}/">{{container}}</a></h4>
         </li>
     {% endfor %}
     </ul>

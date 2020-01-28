@@ -1,7 +1,7 @@
 <a href="/SmartFreshApp/">Retour</a>
 {% if c %}
-    <h4><a href="/SmartFreshApp/{{c.numLot}}/">{{c}}</a></h4>
-    <h5>{{c.commentaires}}</h5>
+    <h4>{{c}}</h4>
+    <h5> {% if c.commentaires %} {{c.commentaires}} {% endif %} </h5>
     <ul>
         <li> Francité : {% if c.isF %} Oui {% else %} Non {% endif %} </li>
         <li> Zone C : {% if c.isC %} Oui {% else %} Non {% endif %} </li>
