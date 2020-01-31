@@ -8,6 +8,17 @@
         <li> Appel SQ : {% if c.isSQ %} Oui {% else %} Non {% endif %} </li>   
         <li> Lot Bloqué : {% if c.isBloque %} Oui {% else %} Non {% endif %} </li>   
     </ul>
+
+    <h3> Scores </h3>
+    {% if s %}
+        <ul>
+        {% for score in s %}
+            <li> {{score.qteAnnonce}} - {{score.produit}} </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No scores.</p>
+    {% endif %}
 {% else %}
     <p>No container.</p>
 {% endif %}
