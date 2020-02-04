@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class Container(models.Model):
@@ -13,6 +14,7 @@ class Container(models.Model):
 
     def __str__(self):
         return str(self.numLot) + ' - ' + str(self.numContainer)
+
 
 class Score(models.Model):
     idScore = models.IntegerField(default=0, primary_key=True, verbose_name="ID du score")
@@ -32,10 +34,3 @@ class Score(models.Model):
 
     def __str__(self):
         return str(self.numLot) + ' - ' + str(self.container) + ' - ' + str(self.marque)
-    
-
-
-    
-
-    
-    

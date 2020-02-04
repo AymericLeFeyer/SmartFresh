@@ -1,3 +1,11 @@
+<html>
+<head>
+    <title>Details du container {{ c.numLot }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+
+<body>
 <a href="/SmartFreshApp/">Retour</a>
 {% if c %}
     <h4>{{c}}</h4>
@@ -5,16 +13,16 @@
     <ul>
         <li> Francité : {% if c.isF %} Oui {% else %} Non {% endif %} </li>
         <li> Zone C : {% if c.isC %} Oui {% else %} Non {% endif %} </li>
-        <li> Appel SQ : {% if c.isSQ %} Oui {% else %} Non {% endif %} </li>   
-        <li> Lot Bloqué : {% if c.isBloque %} Oui {% else %} Non {% endif %} </li>   
+        <li> Appel SQ : {% if c.isSQ %} Oui {% else %} Non {% endif %} </li>
+        <li> Lot Bloqué : {% if c.isBloque %} Oui {% else %} Non {% endif %} </li>
     </ul>
 
     <h3> Scores </h3>
     {% if s %}
         <ul>
-        {% for score in s %}
-            <li> {{score.qteAnnonce}} - {{score.produit}} </li>
-        {% endfor %}
+            {% for score in s %}
+                <li> {{score.qteAnnonce}} - {{score.produit}} </li>
+            {% endfor %}
         </ul>
     {% else %}
         <p>No scores.</p>
@@ -22,3 +30,9 @@
 {% else %}
     <p>No container.</p>
 {% endif %}
+</body>
+
+
+
+
+</html>
