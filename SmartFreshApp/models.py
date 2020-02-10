@@ -11,9 +11,13 @@ class Container(models.Model):
     isF = models.BooleanField(default=False, verbose_name="Francité")
     isBloque = models.BooleanField(default=False, verbose_name="Lot bloqué")
     commentaires = models.CharField(max_length=128, blank=True, null=True, verbose_name="Commentaires")
+    betterNumContainer = models.IntegerField(default=0, verbose_name="Numéro du container en version chiffre")
 
     def __str__(self):
         return str(self.numLot) + ' - ' + str(self.numContainer)
+
+    def withoutChar(self):
+        return self.numContainer[4:].replace('.', '')
 
 
 class Score(models.Model):

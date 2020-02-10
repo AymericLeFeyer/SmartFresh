@@ -36,9 +36,13 @@ def containerByName(request, container_name):
     return HttpResponse(output)
 
 
+
+
 def allContainers(request):
     try:
-        containerList = Container.objects.order_by('numLot')
+        containerListPrevious = Container.objects.all().order_by('numLot')
+        # containerList = sorted(containerListPrevious, key=lambda c: c.withoutChar())
+        containerList = containerListPrevious.order_by('numLot')
         template = loader.get_template('SmartFreshApp/index.html')
         context = {
             'containerList': containerList,
@@ -79,7 +83,6 @@ def research(request):
     else:
         containers = Container.objects.all()
         backPossible = False
-
 
     template = loader.get_template('SmartFreshApp/index.html')
     context = {
