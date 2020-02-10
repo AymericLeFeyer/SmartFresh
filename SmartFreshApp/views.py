@@ -42,6 +42,7 @@ def allContainers(request):
         template = loader.get_template('SmartFreshApp/index.html')
         context = {
             'containerList': containerList,
+            'backPossible': False,
         }
         output = template.render(context, request)
     except Exception as e:
@@ -71,5 +72,6 @@ def research(request):
     template = loader.get_template('SmartFreshApp/index.html')
     context = {
         'containerList': containers,
+        'backPossible': True,
     }
     return HttpResponse(template.render(context, request))

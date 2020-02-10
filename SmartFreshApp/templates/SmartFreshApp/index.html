@@ -1,3 +1,5 @@
+{% load static %}
+
 <html>
 <head>
     <title>Liste des containers</title>
@@ -6,6 +8,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 </head>
 
 
@@ -29,7 +34,13 @@
     <button class="btn btn-outline-primary" type="submit">OK</button>
 </form>
 
+
+
 {% if containerList %}
+    <h2>Liste des containers ({{ containerList.count }})</h2>
+    {% if backPossible == True%}
+        <a href="/SmartFreshApp">Revenir à la liste complète</a>
+    {% endif %}
     <ul class="list-group list-group-flush">
         {% for container in containerList %}
             <li>
@@ -39,7 +50,8 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>No containers are available.</p>
+    <a href="/SmartFreshApp">Revenir à la liste complète</a>
+    <p>Aucun container.</p>
 {% endif %}
 </body>
 

@@ -1,20 +1,57 @@
+{% load static %}
+
 <html>
 <head>
     <title>Details du container {{ c.numLot }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
 <body>
-<a href="/SmartFreshApp/">Retour</a>
 {% if c %}
-    <h4>{{c}}</h4>
-    <h5> {% if c.commentaires %} {{c.commentaires}} {% endif %} </h5>
-    <ul>
-        <li> Francité : {% if c.isF %} Oui {% else %} Non {% endif %} </li>
-        <li> Zone C : {% if c.isC %} Oui {% else %} Non {% endif %} </li>
-        <li> Appel SQ : {% if c.isSQ %} Oui {% else %} Non {% endif %} </li>
-        <li> Lot Bloqué : {% if c.isBloque %} Oui {% else %} Non {% endif %} </li>
+    <h1>{{c}}</h1>
+    <h4> {% if c.commentaires %} {{c.commentaires}} {% endif %} </h4>
+    <ul class="list-group custom-list" style="margin-bottom: 10px">
+        <li class="list-group-item">
+            {% if c.isF %}
+                <i class="fas fa-check"></i>
+                Francité
+            {% else %}
+                <i class="fas fa-times"></i>
+                <strike>Francité</strike>
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            {% if c.isC %}
+                <i class="fas fa-check"></i>
+                Zone C
+            {% else %}
+                <i class="fas fa-times"></i>
+                <strike>Zone C</strike>
+            {% endif %}
+        </li>
+        <li class="list-group-item">
+            {% if c.isSQ %}
+                <i class="fas fa-check"></i>
+                Appel SQ
+            {% else %}
+                <i class="fas fa-times"></i>
+                <strike>Appel SQ</strike>
+            {% endif %}
+
+        </li>
+        <li class="list-group-item">
+            {% if c.isBloque %}
+                <i class="fas fa-check"></i>
+                Lot Bloqué
+            {% else %}
+                <i class="fas fa-times"></i>
+                <strike>Lot Bloqué</strike>
+            {% endif %}
+
+        </li>
     </ul>
 
     <h3> Scores </h3>
@@ -25,11 +62,13 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No scores.</p>
+        <p>Aucun score pour ce container.</p>
     {% endif %}
 {% else %}
-    <p>No container.</p>
+    <p>Aucun container.</p>
 {% endif %}
+<a class="btn btn-primary" href="/SmartFreshApp/">Retour aux containers</a>
+
 </body>
 
 
