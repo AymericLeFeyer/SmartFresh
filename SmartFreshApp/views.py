@@ -60,18 +60,32 @@ def research(request):
     if request.method == 'GET':
         form = request.GET['form']
         option = request.GET['typeRadio']
+        backPossible = False
+        value = ''
+        checked = 0
         if form == '':
             containers = Container.objects.all()
+            backPossible = False
         else:
             if option == 'option1':
                 containers = Container.objects.filter(numContainer__contains=form)
+                backPossible = True
+                checked = 1
             elif option == 'option2':
                 containers = Container.objects.filter(numLot=form)
+                backPossible = True
+                checked = 2
+            value = form
     else:
         containers = Container.objects.all()
+        backPossible = False
+
+
     template = loader.get_template('SmartFreshApp/index.html')
     context = {
         'containerList': containers,
-        'backPossible': True,
+        'backPossible': backPossible,
+        'checked': checked,
+        'value': value,
     }
     return HttpResponse(template.render(context, request))

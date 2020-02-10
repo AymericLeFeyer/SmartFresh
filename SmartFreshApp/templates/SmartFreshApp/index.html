@@ -16,31 +16,39 @@
 
 <body>
 <h1>Liste des containers</h1>
-
+<div class="dropdown-divider"></div>
+<br>
 <h2>Rechercher un container</h2>
 
 <form class="form-inline" action="../research/" method="GET" style="display:block;margin-top: 2rem;margin-bottom: 2rem">
 
-    <input type="radio" name="typeRadio" id="typeRadio1" value="option1" checked>
+    <input type="radio" name="typeRadio" id="typeRadio1" value="option1" {% if checked == 1 or checked == 0 or not checked %} checked {% endif %}>
     Par numéro du container<br>
 
-    <input type="radio" name="typeRadio" id="typeRadio2" value="option2">
-    Par numéro du lot<br>
+    <input type="radio" name="typeRadio" id="typeRadio2" value="option2" {% if checked == 2 %} checked {% endif %}>
+    Par numéro du lot<br><br>
 
-    <input class="form-control mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Recherche" id="recherche"
+    <input class="form-control mr-sm-2" type="text" placeholder="{% if value %} {{ value }} {% else %} Rechercher... {% endif %}" aria-label="Recherche" id="recherche"
            name="form" value="{{ recherche }}">
 
 
     <button class="btn btn-outline-primary" type="submit">OK</button>
 </form>
-
-
+<div class="dropdown-divider"></div>
 
 {% if containerList %}
-    <h2>Liste des containers ({{ containerList.count }})</h2>
-    {% if backPossible == True%}
-        <a href="/SmartFreshApp">Revenir à la liste complète</a>
-    {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h2>Parcourir les containers ({{ containerList.count }})</h2>
+            </div>
+
+            <div class="col" style="text-align: right">
+                {% if backPossible == True %}<a href="/SmartFreshApp" class="btn btn-primary">Revenir à la liste complète</a> {% endif %}
+            </div>
+        </div>
+    </div>
+
     <ul class="list-group list-group-flush">
         {% for container in containerList %}
             <li>
@@ -50,7 +58,6 @@
         {% endfor %}
     </ul>
 {% else %}
-    <a href="/SmartFreshApp">Revenir à la liste complète</a>
     <p>Aucun container.</p>
 {% endif %}
 </body>
