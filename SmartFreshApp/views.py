@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.views.generic import ListView
 
 from .models import Container, Score
 
@@ -56,17 +55,17 @@ def homepage(request):
     return HttpResponse(template.render({}, request))
 
 
-class SearchView(ListView):
-    model = Container
-    template_name = 'SmartFreshApp/search.html'
-    context_object_name = 'all_search_results'
-
-    def get_queryset(self):
-        result = super(SearchView, self).get_queryset()
-        query = self.request.GET.get('search')
-        if query:
-            postresult = Container.objects.filter(numContainer__contains=query)
-            result = postresult
+def research(request):
+    if request.method == 'GET':
+        form = request.GET['form']
+        if form == '':
+            containers = Container.objects.all()
         else:
-            result = None
-        return result
+            containers = Container.objects.filter(numContainer__contains=form)
+    else:
+        containers = Container.objects.all()
+    template = loader.get_template('SmartFreshApp/index.html')
+    context = {
+        'containerList': containers,
+    }
+    return HttpResponse(template.render(context, request))

@@ -8,15 +8,17 @@
 
 <body>
     <h1>Liste des containers</h1>
-<form class="add_your_class" method="GET" action="" >
-    <input class="add_your_class" type="search" name="search">
-    <button class="add_your_class" type="submit"> Search </button>
+
+<form class="form-inline"  action="../research/" method="GET" style="display:block;margin-top: 2rem;margin-bottom: 2rem">
+      <input class="form-control mr-sm-2" type="text" placeholder="Rechercher un container" aria-label="Recherche" id="recherche" name="form" value="{{recherche}}">
+      <button class="btn btn-outline-primary" type="submit">OK</button>
 </form>
+
 {% if containerList %}
     <ul class="list-group list-group-flush">
     {% for container in containerList %}
         <li>
-            <h4><a class="list-group-item list-group-item-action" href="/SmartFreshApp/{{container.numLot}}/">{{container}} </a></h4>
+            <h4><a class="list-group-item list-group-item-action" href="/SmartFreshApp/search/{{container.numLot}}/">{{container}} </a></h4>
         </li>
     {% endfor %}
     </ul>

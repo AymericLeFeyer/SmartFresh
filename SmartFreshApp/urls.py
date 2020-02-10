@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.allContainers, name='allContainers'),
-    path('<int:container_id>/', views.container, name='container'),
-    path('<str:container_name>/', views.containerByName, name='containerByName'),
+    path('research/', views.research, name='research'),
+    path('search/<int:container_id>/', views.container, name='container'),
+    path('search/<str:container_name>/', views.containerByName, name='containerByName'),
 ]
