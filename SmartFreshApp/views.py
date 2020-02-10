@@ -58,10 +58,14 @@ def homepage(request):
 def research(request):
     if request.method == 'GET':
         form = request.GET['form']
+        option = request.GET['typeRadio']
         if form == '':
             containers = Container.objects.all()
         else:
-            containers = Container.objects.filter(numContainer__contains=form)
+            if option == 'option1':
+                containers = Container.objects.filter(numContainer__contains=form)
+            elif option == 'option2':
+                containers = Container.objects.filter(numLot=form)
     else:
         containers = Container.objects.all()
     template = loader.get_template('SmartFreshApp/index.html')
