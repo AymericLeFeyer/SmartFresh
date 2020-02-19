@@ -14,7 +14,7 @@
      <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h1>Détails sur <strong>{{c.numContainer}}</strong> ({{ c.numLot }})</h1>
+                <h1>Détails sur <strong>{{c.numContainer}}</strong> (lot {{ c.numLot }})</h1>
             </div>
             <div class="col" style="text-align: right">
                 <a class="btn btn-primary" href="/SmartFreshApp/" style="margin-top: 20px">Retour aux containers</a>
@@ -65,7 +65,7 @@
         </li>
     </ul>
 
-    <h3> Scores </h3>
+    <h3> Scores {% if s %} ({{ s.count }}) {% endif %}</h3>
     {% if s %}
         <div class="accordion" id="accordionExample">
             {% for score in s %}
