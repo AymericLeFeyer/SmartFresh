@@ -38,3 +38,17 @@ class Score(models.Model):
 
     def __str__(self):
         return str(self.numLot) + ' - ' + str(self.container) + ' - ' + str(self.marque)
+
+class LotBloque(models.Model):
+    id = models.IntegerField(default=0, primary_key=True, verbose_name="ID du lot bloque")
+    numLot = models.IntegerField(default=0, verbose_name="Numéro du lot")
+    numContainer = models.CharField(max_length=12, verbose_name="Numéro du container")
+    contremarque = models.CharField(max_length=128, blank=True, null=True, verbose_name="Contremarque")
+    categorie = models.CharField(max_length=128, blank=True, null=True, verbose_name="Catégorie")
+    quantite = models.IntegerField(default=0, verbose_name="Quantite")
+    operation = models.CharField(max_length=128, blank=True, null=True, verbose_name="Opération")
+
+    def __str__(self):
+        return str(str(self.numContainer) + ' - ' + str(self.quantite) + ' - ' + str(self.categorie))
+    
+

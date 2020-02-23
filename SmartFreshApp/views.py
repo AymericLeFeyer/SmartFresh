@@ -1,17 +1,19 @@
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import Container, Score
+from .models import Container, Score, LotBloque
 
 
 def container(request, container_id):
     try:
         c = Container.objects.get(numLot=container_id)
         s = Score.objects.filter(numLot=c.numLot)
+        b = LotBloque.objects.filter(numLot=c.numLot)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
             's': s,
+            'b': b,
         }
         output = template.render(context, request)
     except Exception:
@@ -24,10 +26,12 @@ def containerByName(request, container_name):
     try:
         c = Container.objects.get(numContainer=container_name)
         s = Score.objects.get(numLot=c.numLot)
+        b = LotBloque.objects.filter(numLot=c.numLot)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
             's': s,
+            'b': b,
         }
         output = template.render(context, request)
     except Exception:

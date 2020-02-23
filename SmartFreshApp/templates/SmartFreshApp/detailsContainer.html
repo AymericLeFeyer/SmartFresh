@@ -94,6 +94,38 @@
     {% else %}
         <p>Aucun score pour ce container.</p>
     {% endif %}
+
+    {% if b %}
+        <h3 style="margin-top: 10px; margin-bottom: 10px"> Détails sur les lots bloqués </h3>
+        <div class="accordion" id="accordionExample">
+            {% for bloque in b %}
+                <div class="card">
+                    <div class="card-header" id="heading{{score.idScore}}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{bloque.id}}" aria-expanded="false" aria-controls="collapse{{bloque.id}}">
+                                {{ bloque.categorie }}
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse{{bloque.id}}" class="collapse show" aria-labelledby="heading{{bloque.id}}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <ul>
+                                <li>Quantité : {{bloque.quantite}}</li>
+                                <li>Contremarque : {{bloque.contremarque}}</li>
+                                {% if bloque.operation %} <p>({{bloque.operation}})</p> {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            {% endfor %}
+
+
+    {% endif %}
+    
 {% else %}
     <p>Aucun container.</p>
 {% endif %}
