@@ -100,9 +100,24 @@ def research(request):
 
 def create_pdf(request, container_id):
     if request.method == 'GET':
-        info = request.GET['infos']
-        score = request.GET['score']
-        bloque = request.GET['bloque']
+        if 'infos' in request.GET:
+            info = request.GET['infos']
+        else:
+            info = False
+        if 'score' in request.GET:
+            score = request.GET['score']
+        else:
+            score = False
+        if 'bloque' in request.GET:
+            bloque = request.GET['bloque']
+        else:
+            bloque = False
+
+        # If nothing is checked, imagine that everything is needed
+        if not info and not score and not bloque:
+            info = True
+            score = True
+            bloque = True
 
         c = Container.objects.get(numLot=container_id)
         if score:
@@ -128,14 +143,10 @@ def create_pdf(request, container_id):
         else:
             fr = "non"
 
-
         if c.isBloque:
             bl = "oui"
         else:
             bl = "non"
-
-
-
 
         if info:
             p.drawString(alineaTitre, y, "INFORMATIONS DU CONTAINER")

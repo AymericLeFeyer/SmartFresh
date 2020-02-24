@@ -15,7 +15,9 @@
 
 
 <body>
-<h1>Liste des containers</h1>
+<div class="col">
+    <h1>Liste des containers</h1>
+</div>
 <div class="dropdown-divider"></div>
 <br>
 <h2>Rechercher un container</h2>
@@ -44,16 +46,17 @@
             </div>
 
             <div class="col" style="text-align: right">
-                {% if backPossible == True %}<a href="/SmartFreshApp" class="btn btn-primary">Revenir à la liste complète</a> {% endif %}
+                {% if backPossible == True %}
+                    <a href="/SmartFreshApp" class="btn btn-primary">Revenir à la liste complète</a> {% endif %}
             </div>
         </div>
     </div>
 
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush" style="list-style: none">
         {% for container in containerList %}
             <li>
                 <h4><a class="list-group-item list-group-item-action"
-                       href="/SmartFreshApp/search/{{ container.numLot }}/">{{ container }} </a></h4>
+                       href="/SmartFreshApp/search/{{ container.numLot }}/">{{ container }}</a></h4>
             </li>
         {% endfor %}
     </ul>
