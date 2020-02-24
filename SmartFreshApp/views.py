@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.template import loader
+from reportlab.pdfgen import canvas
+import io
 
 from .models import Container, Score, LotBloque
 
@@ -38,8 +40,6 @@ def containerByName(request, container_name):
         output = "No container with numContainer = " + str(container_name)
 
     return HttpResponse(output)
-
-
 
 
 def allContainers(request):
@@ -96,3 +96,81 @@ def research(request):
         'value': value,
     }
     return HttpResponse(template.render(context, request))
+
+
+def create_pdf(request, container_id):
+    if request.method == 'GET':
+        info = request.GET['infos']
+        score = request.GET['score']
+        bloque = request.GET['bloque']
+
+        c = Container.objects.get(numLot=container_id)
+        if score:
+            s = Score.objects.filter(numLot=c.numLot)
+        if bloque:
+            b = LotBloque.objects.filter(numLot=c.numLot)
+
+        # Create a file-like buffer to receive PDF data.
+        buffer = io.BytesIO()
+
+        # Create the PDF object, using the buffer as its "file."
+        p = canvas.Canvas(buffer)
+
+        # Draw things on the PDF. Here's where the PDF generation happens.
+        # See the ReportLab documentation for the full list of functionality.
+        y = 810
+        ecartLigne = 15
+        alineaBase = 30
+        alineaTitre = 50
+
+        if c.isF:
+            fr = "oui"
+        else:
+            fr = "non"
+
+
+        if c.isBloque:
+            bl = "oui"
+        else:
+            bl = "non"
+
+
+
+
+        if info:
+            p.drawString(alineaTitre, y, "INFORMATIONS DU CONTAINER")
+            y -= ecartLigne
+            p.drawString(alineaBase, y, 'Numéro du container :' + c.numContainer + ' | Lot : ' + str(c.numLot))
+            y -= ecartLigne
+            if c.commentaires:
+                p.drawString(alineaBase, y, c.commentaires)
+                y -= ecartLigne
+            p.drawString(alineaBase, y, 'Francité : ' + fr + ' | Lot Bloqué : ' + bl)
+            y -= ecartLigne
+
+            y -= ecartLigne
+        if score:
+            p.drawString(alineaTitre, y, "SCORES")
+            y -= ecartLigne
+            for scores in s:
+                p.drawString(alineaBase, y, 'Produit : '+scores.produit+' | Quantité : '+str(scores.qteAnnonce)+' | Marque : '+scores.marque)
+                y -= ecartLigne
+            y -= ecartLigne
+
+        if bloque:
+            p.drawString(alineaTitre, y, "LOTS BLOQUES")
+            y -= ecartLigne
+            for bloques in b:
+                p.drawString(alineaBase, y, 'Catégorie : '+bloques.categorie+' | Quantité : '+str(bloques.quantite)+' | Contremarque : '+bloques.contremarque)
+                y -= ecartLigne
+            y -= ecartLigne
+
+
+        # Close the PDF object cleanly, and we're done.
+        p.showPage()
+        p.save()
+
+        # FileResponse sets the Content-Disposition header so that browsers
+        # present the option to save the file.
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='ticket-'+str(c.numContainer)+'.pdf')
