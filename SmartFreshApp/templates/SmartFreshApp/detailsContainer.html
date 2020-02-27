@@ -2,11 +2,15 @@
 
 <html>
 <head>
-    <title>Détails du container {{ c.numLot }}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>Détails du container {{ c.id }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
 <body>
@@ -14,11 +18,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <h1>Détails sur <strong>{{c.numContainer}}</strong> (lot {{ c.numLot }})</h1>
+                <h1>Détails sur <strong>{{ c.numContainer }}</strong> (lot {{ c.id }})</h1>
             </div>
             {# Buttons #}
             <div class="col" style="text-align: right">
-                <a class="btn btn-primary" href="#"  data-toggle="modal" data-target="#pdfModal" style="margin-top: 20px; margin-right: 10px">Imprimer un ticket</a>
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#pdfModal"
+                   style="margin-top: 20px; margin-right: 10px">Imprimer un ticket</a>
                 <a class="btn btn-primary" href="/SmartFreshApp/" style="margin-top: 20px">Retour aux containers</a>
             </div>
         </div>
@@ -142,18 +147,21 @@
         <div class="accordion" id="accordionExample">
             {% for score in s %}
                 <div class="card">
-                    <div class="card-header" id="heading{{score.idScore}}">
+                    <div class="card-header" id="heading{{ score.id }}">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{score.idScore}}" aria-expanded="false" aria-controls="collapse{{score.idScore}}">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ score.id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ score.id }}">
                                 {{ score.produit }}
                             </button>
                         </h2>
                     </div>
 
-                    <div id="collapse{{score.idScore}}" class="collapse show" aria-labelledby="heading{{score.idScore}}" data-parent="#accordionExample">
+                    <div id="collapse{{ score.id }}" class="collapse show" aria-labelledby="heading{{ score.id }}"
+                         data-parent="#accordionExample">
                         <div class="card-body">
                             <ul>
-                                <li>Quantité : {{score.qteAnnonce}}</li>
+                                <li>Quantité : {{ score.qteAnnonce }}</li>
                                 <li>Marque : {{ score.marque }}</li>
                             </ul>
                         </div>
@@ -172,15 +180,18 @@
         <div class="accordion" id="accordionExample">
             {% for bloque in b %}
                 <div class="card">
-                    <div class="card-header" id="heading{{score.idScore}}">
+                    <div class="card-header" id="heading{{ score.id }}">
                         <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{bloque.id}}" aria-expanded="false" aria-controls="collapse{{bloque.id}}">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ bloque.id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ bloque.id }}">
                                 {{ bloque.categorie }}
                             </button>
                         </h2>
                     </div>
 
-                    <div id="collapse{{bloque.id}}" class="collapse show" aria-labelledby="heading{{bloque.id}}" data-parent="#accordionExample">
+                    <div id="collapse{{ bloque.id }}" class="collapse show" aria-labelledby="heading{{ bloque.id }}"
+                         data-parent="#accordionExample">
                         <div class="card-body">
                             <ul>
                                 <li>Quantité : {{bloque.quantite}}</li>

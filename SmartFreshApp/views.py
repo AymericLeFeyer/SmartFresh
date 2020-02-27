@@ -8,9 +8,9 @@ from .models import Container, Score, LotBloque
 
 def container(request, container_id):
     try:
-        c = Container.objects.get(numLot=container_id)
-        s = Score.objects.filter(numLot=c.numLot)
-        b = LotBloque.objects.filter(numLot=c.numLot)
+        c = Container.objects.get(id=container_id)
+        s = Score.objects.filter(numLot=c.id)
+        b = LotBloque.objects.filter(numLot=c.id)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
@@ -27,8 +27,8 @@ def container(request, container_id):
 def containerByName(request, container_name):
     try:
         c = Container.objects.get(numContainer=container_name)
-        s = Score.objects.get(numLot=c.numLot)
-        b = LotBloque.objects.filter(numLot=c.numLot)
+        s = Score.objects.get(numLot=c.id)
+        b = LotBloque.objects.filter(numLot=c.id)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
@@ -44,9 +44,9 @@ def containerByName(request, container_name):
 
 def allContainers(request):
     try:
-        containerListPrevious = Container.objects.all().order_by('numLot')
+        containerListPrevious = Container.objects.all().order_by('id')
         # containerList = sorted(containerListPrevious, key=lambda c: c.withoutChar())
-        containerList = containerListPrevious.order_by('numLot')
+        containerList = containerListPrevious.order_by('id')
         template = loader.get_template('SmartFreshApp/index.html')
         context = {
             'containerList': containerList,
@@ -119,11 +119,11 @@ def create_pdf(request, container_id):
             score = True
             bloque = True
 
-        c = Container.objects.get(numLot=container_id)
+        c = Container.objects.get(id=container_id)
         if score:
-            s = Score.objects.filter(numLot=c.numLot)
+            s = Score.objects.filter(numLot=c.id)
         if bloque:
-            b = LotBloque.objects.filter(numLot=c.numLot)
+            b = LotBloque.objects.filter(numLot=c.id)
 
         # Create a file-like buffer to receive PDF data.
         buffer = io.BytesIO()
@@ -151,7 +151,7 @@ def create_pdf(request, container_id):
         if info:
             p.drawString(alineaTitre, y, "INFORMATIONS DU CONTAINER")
             y -= ecartLigne
-            p.drawString(alineaBase, y, 'Numéro du container :' + c.numContainer + ' | Lot : ' + str(c.numLot))
+            p.drawString(alineaBase, y, 'Numéro du container :' + c.numContainer + ' | Lot : ' + str(c.id))
             y -= ecartLigne
             if c.commentaires:
                 p.drawString(alineaBase, y, c.commentaires)
