@@ -80,7 +80,7 @@ def research(request):
                 backPossible = True
                 checked = 1
             elif option == 'option2':
-                containers = Container.objects.filter(numLot=form)
+                containers = Container.objects.filter(id=form)
                 backPossible = True
                 checked = 2
             value = form
