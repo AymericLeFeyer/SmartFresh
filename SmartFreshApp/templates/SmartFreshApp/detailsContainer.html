@@ -55,18 +55,21 @@
                             </div>
                         </div>
 
-
-                        {# Scores #}
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <input type="checkbox" name="score" aria-label="Basic infos" id="score" checked>
+                        {% if s %}
+                            {# Scores #}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="score" aria-label="Basic infos" id="score" checked>
+                                    </div>
+                                </div>
+                                <div class="list-group-item" style="width: 80%">
+                                    Scores
                                 </div>
                             </div>
-                            <div class="list-group-item" style="width: 80%">
-                                Scores
-                            </div>
-                        </div>
+                        {% else %}
+                            <input type="hidden" name="score">
+                        {% endif %}
 
 
                         {% if b %}
@@ -84,6 +87,23 @@
                             </div>
                         {% else %}
                             <input type="hidden" name="bloque">
+                        {% endif %}
+
+                        {% if f %}
+                            {# Francite #}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="francite" aria-label="Basic infos" id="francite"
+                                               checked>
+                                    </div>
+                                </div>
+                                <div class="list-group-item" style="width: 80%">
+                                    Francité
+                                </div>
+                            </div>
+                        {% else %}
+                            <input type="hidden" name="francite">
                         {% endif %}
 
 
@@ -105,7 +125,7 @@
         <li class="list-group-item">
             {% if c.isF %}
                 <i class="fas fa-check"></i>
-                Francité
+                <a href="#franciteAnchor" style="color: black; text-decoration: underline">Francité</a>
             {% else %}
                 <i class="fas fa-times"></i>
                 <span style="text-decoration: line-through;">Francité</span>
@@ -133,7 +153,7 @@
         <li class="list-group-item">
             {% if c.isBloque %}
                 <i class="fas fa-check"></i>
-                Lot Bloqué
+                <a href="#bloqueAnchor" style="color: black; text-decoration: underline">Lot Bloqué</a>
             {% else %}
                 <i class="fas fa-times"></i>
                 <span style="text-decoration: line-through;">Lot Bloqué</span>
@@ -176,11 +196,11 @@
     {% endif %}
 
     {% if b %}
-        <h3 style="margin-top: 10px; margin-bottom: 10px"> Détails sur les lots bloqués </h3>
-        <div class="accordion" id="accordionExample">
+        <h3 style="margin-top: 10px; margin-bottom: 10px" id="bloqueAnchor"> Détails sur les lots bloqués </h3>
+        <div class="accordion">
             {% for bloque in b %}
                 <div class="card">
-                    <div class="card-header" id="heading{{ score.id }}">
+                    <div class="card-header" id="heading{{ bloque.id }}">
                         <h2 class="mb-0">
                             <button class="btn btn-link" type="button" data-toggle="collapse"
                                     data-target="#collapse{{ bloque.id }}" aria-expanded="false"
@@ -209,6 +229,40 @@
 
     {% endif %}
 
+    {% if f %}
+        <h3 style="margin-top: 10px; margin-bottom: 10px" id="franciteAnchor"> Détails sur francité </h3>
+        <div class="accordion">
+            {% for francite in f %}
+                <div class="card">
+                    <div class="card-header" id="heading{{ francite.id }}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapse{{ francite.id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ francite.id }}">
+                                {{ francite.produit }}
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse{{ francite.id }}" class="collapse show" aria-labelledby="heading{{ francite.id }}"
+                         data-parent="#accordionExample">
+                        <div class="card-body">
+                            <ul>
+                                <li>Quantité : {{ francite.quantite }}</li>
+                                <li>Contremarque : {{ francite.contremarque }}</li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            {% endfor %}
+
+
+    {% endif %}
+
 {% else %}
     <p>Aucun container.</p>
 {% endif %}
@@ -216,8 +270,12 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 

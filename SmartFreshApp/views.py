@@ -1,9 +1,10 @@
 from django.http import HttpResponse, FileResponse
 from django.template import loader
 from reportlab.pdfgen import canvas
+from reportlab.platypus import PageBreak
 import io
 
-from .models import Container, Score, LotBloque
+from .models import Container, Score, LotBloque, Francite
 
 
 def container(request, container_id):
@@ -11,11 +12,13 @@ def container(request, container_id):
         c = Container.objects.get(id=container_id)
         s = Score.objects.filter(numLot=c.id)
         b = LotBloque.objects.filter(numLot=c.id)
+        f = Francite.objects.filter(numLot=c.id)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
             's': s,
             'b': b,
+            'f': f,
         }
         output = template.render(context, request)
     except Exception:
@@ -29,11 +32,13 @@ def containerByName(request, container_name):
         c = Container.objects.get(numContainer=container_name)
         s = Score.objects.get(numLot=c.id)
         b = LotBloque.objects.filter(numLot=c.id)
+        f = Francite.objects.filter(numLot=c.id)
         template = loader.get_template('SmartFreshApp/detailsContainer.html')
         context = {
             'c': c,
             's': s,
             'b': b,
+            'f': f,
         }
         output = template.render(context, request)
     except Exception:
@@ -112,18 +117,25 @@ def create_pdf(request, container_id):
             bloque = request.GET['bloque']
         else:
             bloque = False
+        if 'francite' in request.GET:
+            francite = request.GET['francite']
+        else:
+            francite = False
 
         # If nothing is checked, imagine that everything is needed
-        if not info and not score and not bloque:
+        if not info and not score and not bloque and not francite:
             info = True
             score = True
             bloque = True
+            francite = True
 
         c = Container.objects.get(id=container_id)
         if score:
             s = Score.objects.filter(numLot=c.id)
         if bloque:
             b = LotBloque.objects.filter(numLot=c.id)
+        if francite:
+            f = Francite.objects.filter(numLot=c.id)
 
         # Create a file-like buffer to receive PDF data.
         buffer = io.BytesIO()
@@ -164,18 +176,37 @@ def create_pdf(request, container_id):
             p.drawString(alineaTitre, y, "SCORES")
             y -= ecartLigne
             for scores in s:
-                p.drawString(alineaBase, y, 'Produit : '+scores.produit+' | Quantité : '+str(scores.qteAnnonce)+' | Marque : '+scores.marque)
+                p.drawString(alineaBase, y, 'Produit : ' + scores.produit + ' | Quantité : ' + str(
+                    scores.qteAnnonce) + ' | Marque : ' + scores.marque)
                 y -= ecartLigne
+                if y <= 20:
+                    p.showPage()
+                    y = 810
             y -= ecartLigne
 
         if bloque:
             p.drawString(alineaTitre, y, "LOTS BLOQUES")
             y -= ecartLigne
             for bloques in b:
-                p.drawString(alineaBase, y, 'Catégorie : '+bloques.categorie+' | Quantité : '+str(bloques.quantite)+' | Contremarque : '+bloques.contremarque)
+                p.drawString(alineaBase, y, 'Catégorie : ' + bloques.categorie + ' | Quantité : ' + str(
+                    bloques.quantite) + ' | Contremarque : ' + bloques.contremarque)
                 y -= ecartLigne
+                if y <= 20:
+                    p.showPage()
+                    y = 810
             y -= ecartLigne
 
+        if francite:
+            p.drawString(alineaTitre, y, "FRANCITE")
+            y -= ecartLigne
+            for francites in f:
+                p.drawString(alineaBase, y, 'Produit : ' + francites.produit + ' | Quantité : ' + str(
+                    francites.quantite) + ' | Contremarque : ' + francites.contremarque)
+                y -= ecartLigne
+                if y <= 20:
+                    p.showPage()
+                    y = 810
+            y -= ecartLigne
 
         # Close the PDF object cleanly, and we're done.
         p.showPage()
@@ -184,4 +215,4 @@ def create_pdf(request, container_id):
         # FileResponse sets the Content-Disposition header so that browsers
         # present the option to save the file.
         buffer.seek(0)
-        return FileResponse(buffer, as_attachment=True, filename='ticket-'+str(c.numContainer)+'.pdf')
+        return FileResponse(buffer, as_attachment=True, filename='ticket-' + str(c.numContainer) + '.pdf')

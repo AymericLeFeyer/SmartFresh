@@ -46,8 +46,19 @@ class LotBloque(models.Model):
     numContainer = models.CharField(max_length=12, verbose_name="Numéro du container")
     contremarque = models.CharField(max_length=128, blank=True, null=True, verbose_name="Contremarque")
     categorie = models.CharField(max_length=128, blank=True, null=True, verbose_name="Catégorie")
-    quantite = models.IntegerField(default=0, verbose_name="Quantite")
+    quantite = models.IntegerField(default=0, verbose_name="Quantité")
     operation = models.CharField(max_length=128, blank=True, null=True, verbose_name="Opération")
 
     def __str__(self):
         return str(str(self.numContainer) + ' - ' + str(self.quantite) + ' - ' + str(self.categorie))
+
+
+class Francite(models.Model):
+    id = models.IntegerField(default=0, primary_key=True, verbose_name="ID du lot francité")
+    contremarque = models.CharField(max_length=128, blank=True, null=True, verbose_name="Contremarque")
+    produit = models.CharField(max_length=32, verbose_name="Produit")
+    quantite = models.IntegerField(default=0, verbose_name="Quantité")
+    numLot = models.IntegerField(default=0, verbose_name="Numéro du lot")
+
+    def __str__(self):
+        return str(str(self.numLot) + ' - ' + str(self.produit) + ' - ' + str(self.contremarque))
